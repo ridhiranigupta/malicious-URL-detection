@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Initialize Next.js project with dependencies",
+			"type": "shell",
+			"command": "npm init -y && npx create-next-app@latest . --typescript --tailwind --app --no-git --no-eslint --src-dir=false && npm install",
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
