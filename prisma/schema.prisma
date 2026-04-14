@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum RiskLabel {
+  SAFE
+  SUSPICIOUS
+  MALICIOUS
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  passwordHash  String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  scans         Scan[]
+  auditLogs     AuditLog[]
+}
+
+model Scan {
+  id                 String    @id @default(cuid())
+  userId             String?
+  url                String
+  normalizedUrl      String
+  riskScore          Int
+  confidenceScore    Int
+  label              RiskLabel
+  reasons            Json
+  explainabilityJson Json
+  screenshotUrl      String?
+  whoisJson          Json?
+  sslJson            Json?
+  safeBrowsingJson   Json?
+  createdAt          DateTime  @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([label, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  route      String
+  method     String
+  statusCode Int
+  message    String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([route, createdAt])
+}

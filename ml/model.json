@@ -1,0 +1,13 @@
+{
+  "version": "sklearn-logreg-v1",
+  "bias": -1.08,
+  "weights": {
+    "entropy": 0.85,
+    "tokenCount": 0.14,
+    "avgTokenLength": 0.1,
+    "subdomainCount": 0.32,
+    "hasIpAddress": 1.1,
+    "https": -0.75,
+    "urlLength": 0.008
+  }
+}
