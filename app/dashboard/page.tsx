@@ -30,6 +30,7 @@ export default function DashboardPage() {
 
   async function runScan() {
     if (!url.trim()) {
+      toast.error("Enter a URL first");
       return;
     }
 
@@ -41,14 +42,20 @@ export default function DashboardPage() {
         body: JSON.stringify({ url }),
       });
       if (!response.ok) {
-        throw new Error("Scan failed");
+        if (response.status === 401) {
+          toast.error("Session expired. Please log in again.");
+          return;
+        }
+
+        const errorBody = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(errorBody?.error || "Scan failed");
       }
 
       const data = (await response.json()) as { scan: Scan };
       setScan(data.scan);
       toast.success("Scan completed");
-    } catch {
-      toast.error("Unable to scan URL");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to scan URL");
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +65,7 @@ export default function DashboardPage() {
     <SiteShell>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <motion.section initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-          <Card className="p-6">
+          <Card className="scan-glow p-6">
             <div className="mb-4 flex items-center justify-between">
               <h1 className="text-2xl font-bold text-white">Threat Scanner</h1>
               <BulkUpload onComplete={() => toast.success("Refresh history to inspect new scans")} />

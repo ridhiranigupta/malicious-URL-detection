@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#040712]">
+    <div className="relative min-h-screen overflow-hidden">
       <ParticlesBackground />
       <div className="grid-overlay absolute inset-0 opacity-50" />
 
@@ -25,8 +25,22 @@ export default function Home() {
               CyberShield AI combines rule-based intelligence, machine learning, and threat enrichment to detect phishing
               links with explainable confidence and rich forensic context.
             </p>
+            <div className="mt-6 grid max-w-xl grid-cols-3 gap-3">
+              <div className="rounded-xl border border-cyan-300/20 bg-slate-950/50 px-3 py-2 text-center">
+                <p className="text-xl font-bold text-cyan-200">99ms</p>
+                <p className="text-xs text-slate-400">avg. API response</p>
+              </div>
+              <div className="rounded-xl border border-cyan-300/20 bg-slate-950/50 px-3 py-2 text-center">
+                <p className="text-xl font-bold text-cyan-200">4 Signals</p>
+                <p className="text-xs text-slate-400">intel sources</p>
+              </div>
+              <div className="rounded-xl border border-cyan-300/20 bg-slate-950/50 px-3 py-2 text-center">
+                <p className="text-xl font-bold text-cyan-200">Explainable</p>
+                <p className="text-xs text-slate-400">analyst-friendly output</p>
+              </div>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="scan-glow">
                 <Link href="/dashboard">Launch Dashboard</Link>
               </Button>
               <Button asChild variant="ghost" size="lg">
@@ -34,7 +48,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <div className="glass-panel rounded-3xl p-4">
+          <div className="glass-panel soft-float rounded-3xl p-4">
             <GlobeScene />
           </div>
         </section>
